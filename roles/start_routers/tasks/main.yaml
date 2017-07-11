@@ -3,12 +3,14 @@
   shell: >
      ps -ef | grep qdrouterd  | grep -v grep | awk '{print $2}' | xargs kill  
   ignore_errors: yes
+  tags: run
 
-- name: run qpid 
-  shell: >
-     source qpid-dispatch/build/config.sh;
-     qdrouterd -c qpid-dispatch/etc/qdrouterd.conf &
+- name: enable qdrouterd.service systemd service
+  service: state=started enabled=yes name=qdrouterd.service
   
 - name: 
   shell: >
      ps -ef | grep qdrouterd  | grep -v grep | awk '{print $2}' | xargs taskset -cp 2,3 
+  tags: run
+
+- include: status.yaml

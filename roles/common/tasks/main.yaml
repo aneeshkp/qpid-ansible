@@ -6,11 +6,15 @@
   register: hostname_id
 
 
-- name: kill existing process if any
-  shell: >
-     ps -ef | grep qdrouterd  | grep -v grep | awk '{print $2}' | xargs kill  
+- name: disable qpid systemd service if running
+  service: state=stopped enabled=yes name=qdrouterd.service
   ignore_errors: yes
-     
+
+- name: clean  qpid router service  systemd service
+  file: path=/usr/lib/systemd/system/qdrouterd.service state=absent
+  ignore_errors: yes
+
+
 - name: clean  of any old qpid code
   file: name={{ansible_env.HOME}}/qpid-dispatch state=absent force=yes
 
@@ -41,4 +45,15 @@
    cd build;
    cmake ..;
    make install
-   
+
+- name: create qpid router systemd service
+  template: src=qpid-router-service.j2 dest=/etc/systemd/system/qdrouterd.service mode=0644 seuser=unconfined_u force=yes
+  
+
+- name: reload daemons
+  command: systemctl daemon-reload
+
+
+  
+
+  
