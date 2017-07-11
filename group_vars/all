@@ -1,0 +1,4 @@
+qpid_base_repo: https://github.com/apache/qpid-dispatch.git
+qpid_branch: 0.8.x
+
+client_base_repo: https://github.com/aneeshkp/13nodes.git

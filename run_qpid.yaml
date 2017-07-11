@@ -1,0 +1,33 @@
+---
+- hosts: router
+  remote_user: root
+  roles:
+    - start_routers
+
+- hosts: event_receiver
+  remote_user: root
+  roles:
+    - start_routers
+
+- hosts: traffic_receiver 
+  remote_user: root
+  roles:
+    - start_routers
+
+- hosts: event_sender
+  remote_user: root
+  roles:
+    - start_routers
+  
+
+- hosts: traffic_sender
+  remote_user: root
+  roles:
+    - start_routers
+
+
+  
+
+
+    
+    

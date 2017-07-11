@@ -1,0 +1,14 @@
+---
+- name: kill existing process if any
+  shell: >
+     ps -ef | grep qdrouterd  | grep -v grep | awk '{print $2}' | xargs kill  
+  ignore_errors: yes
+
+- name: run qpid 
+  shell: >
+     source qpid-dispatch/build/config.sh;
+     qdrouterd -c qpid-dispatch/etc/qdrouterd.conf &
+  
+- name: 
+  shell: >
+     ps -ef | grep qdrouterd  | grep -v grep | awk '{print $2}' | xargs taskset -cp 2,3 

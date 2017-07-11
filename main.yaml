@@ -1,0 +1,24 @@
+---
+- hosts: event_sender
+  remote_user: root
+
+- hosts: event_receiver
+  remote_user: root
+
+- hosts: traffic_sender
+  remote_user: root
+  roles:
+    - setup
+    - common
+    - install-13nodes
+
+- hosts: router
+  remote_user: root
+  
+
+- hosts: traffic_receiver
+  remote_user: root
+  roles:
+    - setup
+    - common
+    - install-13nodes

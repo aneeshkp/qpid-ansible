@@ -1,0 +1,44 @@
+---
+- name: Create a unique ID
+  command: uuidgen
+  run_once: true
+  delegate_to: '{{inventory_hostname}}'
+  register: hostname_id
+
+
+- name: kill existing process if any
+  shell: >
+     ps -ef | grep qdrouterd  | grep -v grep | awk '{print $2}' | xargs kill  
+  ignore_errors: yes
+     
+- name: clean  of any old qpid code
+  file: name={{ansible_env.HOME}}/qpid-dispatch state=absent force=yes
+
+- name: clone qpid code
+  git: repo={{ qpid_base_repo }} accept_hostkey=yes version={{ qpid_branch }} dest={{ansible_env.HOME}}/qpid-dispatch
+
+- name: Install dependency
+  yum: name={{ item }} state=present
+  with_items:
+    - qpid-proton-c-devel
+    - python-qpid-proton
+    - cmake
+    - make
+    - gcc
+    - python-devel
+    - cyrus-sasl-plain
+    - cyrus-sasl-devel
+    - asciidoc
+    - util-linux
+
+- name: copy qpid conf file
+  template: src={{hostvars[inventory_hostname].group_names[0]}}.j2 dest={{ansible_env.HOME}}/qpid-dispatch/etc/qdrouterd.conf force=yes
+  
+- name: run install
+  shell: >
+   cd {{ansible_env.HOME}}/qpid-dispatch;
+   mkdir build;
+   cd build;
+   cmake ..;
+   make install
+   
