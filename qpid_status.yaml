@@ -1,7 +1,4 @@
 - hosts: all
   remote_user: root
   roles:
-    - start_routers
-  tags:
-    - status
-  
+    - { role: start_routers, tags: [ 'status' ] } 

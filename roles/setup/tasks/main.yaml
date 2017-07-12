@@ -1,2 +1,43 @@
 ---
-- include: setup.yaml
+- name: Set authorized key for user root copying it from current user
+  authorized_key:
+    user: root
+    state: present
+    key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
+
+
+- name: Install dependency
+  yum: name=git state=present
+
+- name: Sudoers | update sudoers file and validate
+  lineinfile: "dest=/etc/sudoers
+    insertafter=EOF
+    line='root ALL=(ALL) NOPASSWD: ALL'
+    regexp='root ALL=(ALL) NOPASSWD: ALL'
+    state=present"
+
+- name: update grub
+  lineinfile: >
+     dest=/etc/default/grub
+     regexp=^GRUB_CMDLINE_LINUX_DEFAULT
+     line='GRUB_CMDLINE_LINUX_DEFAULT="isolcpus=2,3"'
+
+- name: Load new GRUB config
+  shell: >
+   grub2-mkconfig -o /boot/grub2/grub.cfg
+
+- name: setup iptables
+  shell: > 
+   iptables -I INPUT -p tcp --dport 5672 -j ACCEPT;
+   iptables -I INPUT -p tcp --dport 20002 -j ACCEPT;
+   iptables -I INPUT -p tcp --dport 20003 -j ACCEPT;   
+
+- name: save iptables
+  command: iptables-save
+  sudo: true   
+   
+   
+
+
+
+

@@ -1,0 +1,12 @@
+#EVENT SENDER
+./proton-sender -t unicast/event -l -c -1 -S 1000 -m 10 -M 1000 -a 10.19.110.15:5672
+
+#EVENT RECEVIER
+./proton-receiver -t unicast/event -l -c -1  -a 10.19.110.17:5672
+
+
+#TRAFFIC_SENDER One msg per sec
+./proton-sender -t unicast/traffic -l -c -1 -s 1500 -S 1000 -m 1000 -M 1000 -a 10.19.110.15:5672
+
+#TRAFFIC RECEVEIR
+./proton-receiver -t unicast/traffic -l -c -1  -a 10.19.110.25:5672
