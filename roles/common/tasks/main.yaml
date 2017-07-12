@@ -1,25 +1,35 @@
 ---
 - name: Create a unique ID
   command: uuidgen
-  run_once: true
+  run_once: false
   delegate_to: '{{inventory_hostname}}'
   register: hostname_id
+  tags:
+    - main
 
 
 - name: disable qpid systemd service if running
   service: state=stopped enabled=yes name=qdrouterd.service
   ignore_errors: yes
+  tags:
+    - main
 
 - name: clean  qpid router service  systemd service
   file: path=/usr/lib/systemd/system/qdrouterd.service state=absent
   ignore_errors: yes
+  tags:
+    - main
 
 
 - name: clean  of any old qpid code
   file: name={{ansible_env.HOME}}/qpid-dispatch state=absent force=yes
+  tags:
+    - main
 
 - name: clone qpid code
   git: repo={{ qpid_base_repo }} accept_hostkey=yes version={{ qpid_branch }} dest={{ansible_env.HOME}}/qpid-dispatch
+  tags:
+    - main
 
 - name: Install dependency
   yum: name={{ item }} state=present
@@ -34,9 +44,13 @@
     - cyrus-sasl-devel
     - asciidoc
     - util-linux
+  tags:
+    - main
 
 - name: copy qpid conf file
   template: src={{hostvars[inventory_hostname].group_names[0]}}.j2 dest={{ansible_env.HOME}}/qpid-dispatch/etc/qdrouterd.conf force=yes
+  tags:
+    - main
   
 - name: run install
   shell: >
@@ -45,13 +59,20 @@
    cd build;
    cmake ..;
    make install
+  tags:
+    - main
+
 
 - name: create qpid router systemd service
   template: src=qpid-router-service.j2 dest=/etc/systemd/system/qdrouterd.service mode=0644 seuser=unconfined_u force=yes
+  tags:
+    - main
   
 
 - name: reload daemons
   command: systemctl daemon-reload
+  tags:
+    - main
 
 
   

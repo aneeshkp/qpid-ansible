@@ -1,20 +1,27 @@
 ---
 - name: clean  of any old 13nodes code
   file: name={{ansible_env.HOME}}/13nodes state=absent force=yes
+  tags: 
+    - client
 
 
 - name: clone 13nodes code
   git: repo={{ client_base_repo }} accept_hostkey=yes dest={{ansible_env.HOME}}/13nodes
-  become: true
+  tags: 
+    - client
   
 
 - name: Install dependency
   yum: name=qpid-proton-c-devel state=present
+  tags: 
+    - client
   
 
 - name: run install
   shell: >
    cd {{ansible_env.HOME}}/13nodes/source;
    make -f proton.mk;
+  tags: 
+    - client
   
    

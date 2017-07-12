@@ -2,26 +2,39 @@
 - hosts: router
   remote_user: root
   roles:
-    - common
-
+    - { role: setup, tags: [ 'setup' ] } 
+    - { role: common, tags: [ 'main' ] } 
+    - { role: install-13nodes, tags: [ 'client' ] } 
+    - { role: start_routers, tags: [ 'run' ] } 
+    
 - hosts: event_sender
   remote_user: root
   roles:
-    - common
-
+    - { role: setup, tags: [ 'setup' ] } 
+    - { role: common, tags: [ 'main' ] } 
+    - { role: install-13nodes, tags: [ 'client' ] } 
+    - { role: start_routers, tags: [ 'run' ] } 
+  
 - hosts: event_receiver
   remote_user: root
   roles:
-    - common
+    - { role: setup, tags: [ 'setup' ] } 
+    - { role: common, tags: [ 'main' ] } 
+    - { role: install-13nodes, tags: [ 'client' ] } 
+    - { role: start_routers, tags: [ 'run' ] } 
 
 - hosts: traffic_sender
   remote_user: root
   roles:
-    - common
-    - install-13nodes
+    - { role: setup, tags: [ 'setup' ] } 
+    - { role: common, tags: [ 'main' ] } 
+    - { role: install-13nodes, tags: [ 'client' ] } 
+    - { role: start_routers, tags: [ 'run' ] } 
 
 - hosts: traffic_receiver
   remote_user: root
   roles:
-    - common
-    - install-13nodes
+    - { role: setup, tags: [ 'setup' ] } 
+    - { role: common, tags: [ 'main' ] } 
+    - { role: install-13nodes, tags: [ 'client' ] } 
+    - { role: start_routers, tags: [ 'run' ] } 

@@ -4,18 +4,18 @@
      ps -ef | grep qdrouterd  | grep -v grep | awk '{print $2}' | xargs kill  
   ignore_errors: yes
   tags: 
-    - run
+     - run
 
 - name: Enable qdrouterd.service systemd service
   service: state=started enabled=yes name=qdrouterd.service
   tags:
-      - run
+    - run
   
 - name: Pin pid to 2and 3 core
   shell: >
      ps -ef | grep qdrouterd  | grep -v grep | awk '{print $2}' | xargs taskset -cp 2,3 
   tags:
-    - run
+     - run
 
 - name: Check if qdrouterd is running
   shell: ps aux | grep qdrouterd | grep -v grep
@@ -23,7 +23,7 @@
   changed_when: false
   register: service_qdrouterd_status
   tags:
-    - status
+     - status
 
 - name: Report status of qdrouterd
   fail:
@@ -33,4 +33,4 @@
       {{ service_qdrouterd_status.rc }}
   when: service_qdrouterd_status.rc != 0
   tags:
-    - status
+     - status

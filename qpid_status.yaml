@@ -1,4 +1,0 @@
-- hosts: all
-  remote_user: root
-  roles:
-    - { role: start_routers, tags: [ 'status' ] } 
