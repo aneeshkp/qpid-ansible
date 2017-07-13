@@ -1,26 +1,26 @@
 # qpid-ansible
 (some issue couldn't run by tag)
 #fresh install
-ansible-playbook -i hosts main.yaml
+	ansible-playbook -i hosts main.yaml
 
 #Run only setup
-ansible-playbook -i hosts main.yaml --tags=setup
+	ansible-playbook -i hosts main.yaml --tags=setup
 
 #Install client and router
-ansible-playbook -i hosts main.yaml --tags=client,router
+	ansible-playbook -i hosts main.yaml --tags=client,router
 
-#Install only and router
-ansible-playbook -i hosts main.yaml --tags=router
+## Install only and router
+	ansible-playbook -i hosts main.yaml --tags=router
 
-#Run routers 
-ansible-playbook -i hosts main.yaml --tags=start
+## Run routers 
+	ansible-playbook -i hosts main.yaml --tags=start
 
-#Check status if qpid  routers are running
-ansible-playbook -i hosts main.yaml --tags=status
-
+### Check status if qpid  routers are running
+	ansible-playbook -i hosts main.yaml --tags=status
 
 ### Running test client
 (Check hosts file for details)
+```
 Central router ip :10.19.110.9 and 10.19.110.11
 Event Sender: 10.19.110.15
 Event Recevier: 10.19.110.17
@@ -62,3 +62,4 @@ IP_ADDR=$(ip addr show | grep "inet " | grep 10.19.110.* |  grep -v "127.0.0.1" 
 for i in {1..100};do
 ./proton-sender -t unicast/traffic -l -c -1 -S 1000 -m 100 -M 100 -a $IP_ADDR:5672 & 
 done
+```
