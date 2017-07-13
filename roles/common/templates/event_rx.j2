@@ -39,23 +39,13 @@ listener {
 #
 listener {
     role: inter-router
-    host: 0.0.0.0
+    host: {{ansible_default_ipv4.address}}
     port: 20003
     authenticatePeer: no
     saslMechanisms: ANONYMOUS
 }
 
 
-# # This establishes an outgoing inter-router connection
-# # listener
-# #
-# connector {
-#     role: inter-router
-#     host: 10.19.110.11
-#     port: 20002
-#     authenticatePeer: no
-#     saslMechanisms: ANONYMOUS
-# }ssh root
 
 
 # Various address prefix -> distribution pattern

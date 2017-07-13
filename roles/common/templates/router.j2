@@ -28,7 +28,7 @@ router {
 # # This is for _client_ connections (senders and receivers)
 # # to connect on port 5672:
 # listener {
-#     host: 10.19.110.11
+#     host: 0.0.0.0
 #     port: amqp
 #     authenticatePeer: no
 #     saslMechanisms: ANONYMOUS
@@ -48,18 +48,23 @@ listener {
 
 # This establishes an outgoing inter-router connection to QPD.C
 #
-connector {
-    role: inter-router
-    host: 10.19.110.17
-    port: 20003
-    saslMechanisms: ANONYMOUS
-}
-connector {
-    role: inter-router
-    host: 10.19.110.25
-    port: 20003
-    saslMechanisms: ANONYMOUS
-}
+#connector {
+#    role: inter-router
+#    host: 10.19.110.17
+#    port: 20003
+#    saslMechanisms: ANONYMOUS
+#}
+#connector {
+#    role: inter-router
+#    host: 10.19.110.25
+#    port: 20003
+#    saslMechanisms: ANONYMOUS
+#}
+# router connectors to receivers at port 20003
+# BEGIN qpid marker
+
+
+# END qpid marker
 
 
 

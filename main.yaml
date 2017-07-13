@@ -2,39 +2,35 @@
 - hosts: router
   remote_user: root
   roles:
-    - { role: setup, tags: [ 'setup' ] } 
-    - { role: common, tags: [ 'main' ] } 
-    - { role: install-13nodes, tags: [ 'client' ] } 
-    - { role: start_routers, tags: [ 'run' ] } 
-    
-- hosts: event_sender
+    - { role: setup, tags: [ 'setup' ] }
+    - { role: common, tags: [ 'router' ] }
+    - { role: install-13nodes, tags: [ 'client' ] }
+    - { role: start_routers, tags: [ 'start','status' ] }
+- hosts: event_tx
   remote_user: root
   roles:
-    - { role: setup, tags: [ 'setup' ] } 
-    - { role: common, tags: [ 'main' ] } 
-    - { role: install-13nodes, tags: [ 'client' ] } 
-    - { role: start_routers, tags: [ 'run' ] } 
-  
-- hosts: event_receiver
+    - { role: setup, tags: [ 'setup' ] }
+    - { role: common, tags: [ 'router' ] }
+    - { role: install-13nodes, tags: [ 'client' ] }
+    - { role: start_routers, tags: [ 'start','status' ] }
+- hosts: event_rx
   remote_user: root
   roles:
-    - { role: setup, tags: [ 'setup' ] } 
-    - { role: common, tags: [ 'main' ] } 
-    - { role: install-13nodes, tags: [ 'client' ] } 
-    - { role: start_routers, tags: [ 'run' ] } 
-
-- hosts: traffic_sender
+    - { role: setup, tags: [ 'setup' ] }
+    - { role: common, tags: [ 'router' ] }
+    - { role: install-13nodes, tags: [ 'client' ] }
+    - { role: start_routers, tags: [ 'start','status'] }
+- hosts: traffic_tx
   remote_user: root
   roles:
-    - { role: setup, tags: [ 'setup' ] } 
-    - { role: common, tags: [ 'main' ] } 
-    - { role: install-13nodes, tags: [ 'client' ] } 
-    - { role: start_routers, tags: [ 'run' ] } 
-
-- hosts: traffic_receiver
+    - { role: setup, tags: [ 'setup' ] }
+    - { role: common, tags: [ 'router' ] }
+    - { role: install-13nodes, tags: [ 'client' ] }
+    - { role: start_routers, tags: ['start','status'] }
+- hosts: traffic_rx
   remote_user: root
   roles:
-    - { role: setup, tags: [ 'setup' ] } 
-    - { role: common, tags: [ 'main' ] } 
-    - { role: install-13nodes, tags: [ 'client' ] } 
-    - { role: start_routers, tags: [ 'run' ] } 
+    - { role: setup, tags: [ 'setup' ] }
+    - { role: common, tags: [ 'router' ] }
+    - { role: install-13nodes, tags: [ 'client' ] }
+    - { role: start_routers, tags: [ 'start','status' ] }

@@ -50,18 +50,23 @@ listener {
 # This establishes an outgoing inter-router connection to QPD.B
 # listener
 #
-connector {
-    role: inter-router
-    host: 10.19.110.11
-    port: 20002
-    saslMechanisms: ANONYMOUS
-}
-connector {
-    role: inter-router
-    host: 10.19.110.9
-    port: 20002
-    saslMechanisms: ANONYMOUS
-}
+#connector {
+#    role: inter-router
+#    host: 10.19.110.11
+#    port: 20002
+#    saslMechanisms: ANONYMOUS
+#}
+#connector {
+#    role: inter-router
+#    host: 10.19.110.9
+#    port: 20002
+#    saslMechanisms: ANONYMOUS
+#}
+#connector to router ip address listening at port 20002
+# BEGIN qpid marker
+
+
+# END qpid marker
 
 
 # Various address prefix -> distribution pattern
