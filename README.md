@@ -9,15 +9,17 @@
 #Install client and router
 	ansible-playbook -i hosts main.yaml --tags=client,router
 
-## Install only and router
+## Install only router
 	ansible-playbook -i hosts main.yaml --tags=router
 
 ## Run routers 
 	ansible-playbook -i hosts main.yaml --tags=start
 
-### Check status if qpid  routers are running
+### Check status if qpid routers are running
 	ansible-playbook -i hosts main.yaml --tags=status
 
+##Test Setup
+![alt text](https://github.com/aneeshkp/qpid-ansible/blob/master/utils/qpidprotonclientsetup.png)
 ### Running test client
 (Check hosts file for details)
 ```
@@ -25,7 +27,7 @@ Central router ip :10.19.110.9 and 10.19.110.11
 Event Sender: 10.19.110.15
 Event Recevier: 10.19.110.17
 Trafffic :10.19.110.1
-		  10.19.110.3
+          10.19.110.3
           10.19.110.21
           10.19.110.23
 
