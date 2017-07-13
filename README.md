@@ -18,7 +18,7 @@
 ### Check status if qpid routers are running
 	ansible-playbook -i hosts main.yaml --tags=status
 
-##Test Setup
+### Test Setup
 ![alt text](https://github.com/aneeshkp/qpid-ansible/blob/master/utils/qpidprotonclientsetup.png)
 ### Running test client
 (Check hosts file for details)
