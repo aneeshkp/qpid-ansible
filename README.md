@@ -19,7 +19,7 @@
 	ansible-playbook -i hosts main.yaml --tags=status
 
 ### Test Setup With single event producer and consumer and with 100*4  telemetry producers and 1 telemetry  consumer (100 nodes of telemetry sending messages to single local router)
-![alt text](https://github.com/aneeshkp/qpid-ansible/blob/master/utils/qpidprotonclientsetupwithtelemetry.png)
+![alt text](https://github.com/aneeshkp/qpid-ansible/blob/master/utils/qpidprotonclientsetupwithtelemetry2.png)
 
 ### Test Setup showing client for events only
 ![alt text](https://github.com/aneeshkp/qpid-ansible/blob/master/utils/qpidprotonclientsetup.png)
