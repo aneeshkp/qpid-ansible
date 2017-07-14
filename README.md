@@ -1,3 +1,11 @@
+```Setup test environment as shown below.```
+
+### Test Setup With single event producer and consumer and with 100*4  telemetry producers and 1 telemetry  consumer (100 nodes of telemetry sending messages to single local router)
+![alt text](https://github.com/aneeshkp/qpid-ansible/blob/master/utils/qpidprotonclientsetupwithtelemetry2.png)
+
+### Test Setup showing client for events only
+![alt text](https://github.com/aneeshkp/qpid-ansible/blob/master/utils/qpidprotonclientsetup.png)
+### Running test client
 # qpid-ansible
 (some issue couldn't run by tag)
 #fresh install
@@ -17,13 +25,6 @@
 
 ### Check status if qpid routers are running
 	ansible-playbook -i hosts main.yaml --tags=status
-
-### Test Setup With single event producer and consumer and with 100*4  telemetry producers and 1 telemetry  consumer (100 nodes of telemetry sending messages to single local router)
-![alt text](https://github.com/aneeshkp/qpid-ansible/blob/master/utils/qpidprotonclientsetupwithtelemetry2.png)
-
-### Test Setup showing client for events only
-![alt text](https://github.com/aneeshkp/qpid-ansible/blob/master/utils/qpidprotonclientsetup.png)
-### Running test client
 (Check hosts file for details)
 ```
 Central router ip :10.19.110.9 and 10.19.110.11
