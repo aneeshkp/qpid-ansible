@@ -1,0 +1,36 @@
+---
+#- name: Check if qdrouterd is running
+#  shell: >
+#    ps aux | grep qdrouterd | grep -v grep
+#  ignore_errors: yes
+#  changed_when: false
+#  register: service_qdrouterd_status
+#  tags:
+#    - status
+#- name: Report status of qdrouterd
+#  fail:
+#    msg: |
+#      Service qdrouterd is not running.
+#      Return code from `grep`:
+#      {{ service_qdrouterd_status.rc }}
+#  when: service_qdrouterd_status.rc != 0
+#  tags:
+#    - status
+- name: Check if qdrouterd is running
+  command: systemctl status qdrouterd.service
+  ignore_errors: yes
+  changed_when: false
+  register: service_qdrouterd_status
+  tags:
+    - status
+
+- name: Report status of qdrouterd
+  fail:
+    msg: |
+      Service qdrouterd is not running.
+      Output of `systemctl status qdrouterd`:
+      {{ service_qdrouterd_status.stdout }}
+      {{ service_qdrouterd_status.stderr }}
+  when: service_qdrouterd_status | failed
+  tags:
+    - status
