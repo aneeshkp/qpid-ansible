@@ -4,8 +4,7 @@
     user: root
     state: present
     key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
-  tags:
-    - setup
+  tags: setup-ssh, setup
 - name: Install dependency
   yum: name=git state=present
   tags:
@@ -16,31 +15,18 @@
     line='root ALL=(ALL) NOPASSWD: ALL'
     regexp='root ALL=(ALL) NOPASSWD: ALL'
     state=present"
-  tags:
-    - setup
+  tags: setup
 - name: update grub
   lineinfile: >
      dest=/etc/default/grub
      regexp=^GRUB_CMDLINE_LINUX_DEFAULT
      line='GRUB_CMDLINE_LINUX_DEFAULT="isolcpus=2,3"'
-  tags:
-    - setup
+  tags: setup-grub,setup
 - name: Load new GRUB config
   shell: >
    grub2-mkconfig -o /boot/grub2/grub.cfg
-  tags:
-    - setup
-- name: setup iptables
-  shell: >
-   iptables -I INPUT -p tcp --dport 5672 -j ACCEPT;
-   iptables -I INPUT -p tcp --dport 20002 -j ACCEPT;
-   iptables -I INPUT -p tcp --dport 20003 -j ACCEPT;
-  tags:
-    - setup
-- name: save iptables
-  command: iptables-save
-  tags:
-    - setup
+  tags: setup
+
 
 
 
