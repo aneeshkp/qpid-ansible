@@ -24,25 +24,25 @@
   delegate_to: '{{inventory_hostname}}'
   register: hostname_id
   tags:
-    - main
+    - router
 - name: disable qpid systemd service if running
   service: state=stopped enabled=yes name=qdrouterd.service
   ignore_errors: yes
   tags:
-    - main
+    - router
 - name: clean  qpid router service  systemd service
   file: path=/usr/lib/systemd/system/qdrouterd.service state=absent
   ignore_errors: yes
   tags:
-    - main
+    - router
 - name: clean  of any old qpid code
   file: name={{ansible_env.HOME}}/qpid-dispatch state=absent force=yes
   tags:
-    - main
+    - router
 - name: clone qpid code
   git: repo={{ qpid_base_repo }} accept_hostkey=yes version={{ qpid_branch }} dest={{ansible_env.HOME}}/qpid-dispatch
   tags:
-    - main
+    - router
 - name: Install dependency
   yum: name={{ item }} state=present
   with_items:
