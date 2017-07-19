@@ -1,3 +1,6 @@
+[localhost]
+localhost ansible_connection=local
+
 [router]
 10.19.110.9
 10.19.110.11

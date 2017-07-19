@@ -1,0 +1,54 @@
+---
+- name: install ipmitool
+  action: "{{ ansible_pkg_mgr }} name={{ item }} state=present"
+  with_items:
+   - ipmitool
+   - python-pip
+  become: true
+
+- name: Install python modules
+  pip: name=pyghmi state=present
+  become: true
+ 
+- debug: var=item
+  with_items: "{{ipmi_hosts}}"
+#- name: Powering On Servers
+#  local_action: ipmitool -I lanplus -H {{item.stdout_lines}} -U {{username}} -P {{password}} power status
+#  with_items:
+#   - "{{ ipmi_hosts }}"
+- ipmi_power:
+    name: "{{item.ipmi_ip}}"
+    user: "{{item.user}}"
+    password: "{{item.password}}"
+    state: on
+  with_items: "{{ipmi_hosts}}"
+  register: "server_state"
+  become: true
+
+
+- debug: var=item
+  with_items: "{{server_state.results}}"
+
+- debug: msg="Gets printed only if this item changed - {{item}}"
+  when: item.changed == true
+  with_items: "{{server_state.results}}"
+
+- name: Waiting for Servers to be up
+  local_action:
+   module: wait_for
+    host={{item.item.ip}}
+    port=22
+    delay=10
+    timeout=3600
+  with_items:
+   - "{{ server_state.results }}"
+
+
+#
+#- name: Wait for Server to Restart
+#  local_action:
+#    wait_for
+#      host: {{ inventory_hostname }}
+#      port: 22
+#      delay: 15
+#      timeout: 300

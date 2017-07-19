@@ -1,0 +1,45 @@
+---
+#ipmi addess
+ipmi_hosts:
+  - name:
+    ipmi_ip: 10.19.110.10
+    ip: 10.19.110.9
+    user: ADMIN
+    password: ADMIN
+  - name:
+    ipmi_ip: 10.19.110.6
+    ip: 10.19.110.5
+    user: ADMIN
+    password: ADMIN
+  - name:
+    ipmi_ip: 10.19.110.18
+    ip: 10.19.110.17
+    user: ADMIN
+    password: ADMIN
+  - name:
+    ipmi_ip: 10.19.110.2
+    ip: 10.19.110.1
+    user: ADMIN
+    password: ADMIN
+  - name:
+    ipmi_ip: 10.19.110.4
+    ip: 10.19.110.3
+    user: ADMIN
+    password: ADMIN
+  - name:
+    ipmi_ip: 10.19.110.22
+    ip: 10.19.110.21
+    user: ADMIN
+    password: ADMIN
+  - name:
+    ipmi_ip: 10.19.110.24
+    ip: 10.19.110.23
+    user: ADMIN
+    password: ADMIN
+  - name:
+    ipmi_ip: 10.19.110.26
+    ip: 10.19.110.26
+    user: ADMIN
+    password: ADMIN
+
+  

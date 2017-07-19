@@ -1,4 +1,20 @@
 ---
+- hosts: all
+  user: root
+  gather_facts: no
+  #serial: 1
+  pre_tasks:
+    - name: ping all hosts  
+      ping:
+      #when: inventory_hostname not in hostvars[inventory_hostname].groups['ipmi']
+      
+- hosts: localhost
+  gather_facts: yes
+  roles:
+    - ipmi-check
+  vars_files:
+    - vars/ipmi.yaml
+
 - hosts: router
   remote_user: root
   roles:
