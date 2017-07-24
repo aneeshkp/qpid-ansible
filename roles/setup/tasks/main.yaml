@@ -1,30 +1,48 @@
 ---
-- name: Set authorized key for user root copying it from current user
-  authorized_key:
-    user: root
+#- name: Set authorized key for user root copying it from current user
+#  authorized_key:
+#    user: root
+#    state: present
+#    key: "{{ lookup('file', lookup('env','HOME') + '~/.ssh/id_rsa.pub') }}"
+#  tags: setup-ssh, setup
+#key: "{{ lookup('file',  '~/.ssh/id_rsa.pub') }}"
+- name: cleanup know hosts
+  known_hosts:
+    path: '~/.ssh/known_hosts'
+    name: '{{ item.ip}}'   
+    state: absent
+  with_items: "{{ipmi_hosts}}"
+  delegate_to: localhost
+  tags: setup-ssh
+
+- name: add to  know hosts
+  known_hosts:
+    path: '~/.ssh/known_hosts'
+    name: '{{ item.ip}}'   
+    key: "{{ lookup('file',  '~/.ssh/id_rsa.pub') }}"
     state: present
+  with_items: "{{ipmi_hosts}}"
+  delegate_to: localhost
+  tags: setup-ssh
+
+- name: deploy keys on all servers
+  authorized_key: 
+    user: root
     key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
-  tags: setup-ssh, setup
+    delegate_to: "{{ item.ip }}"
+  with_items: "{{ipmi_hosts}}"
+  tags: setup-ssh
+
 - name: Install dependency
   yum: name=git state=present
-  tags:
-    - setup
+  tags: setup
+    
 - name: Sudoers | update sudoers file and validate
   lineinfile: "dest=/etc/sudoers
     insertafter=EOF
     line='root ALL=(ALL) NOPASSWD: ALL'
     regexp='root ALL=(ALL) NOPASSWD: ALL'
     state=present"
-  tags: setup
-- name: update grub
-  lineinfile: >
-     dest=/etc/default/grub
-     regexp=^GRUB_CMDLINE_LINUX_DEFAULT
-     line='GRUB_CMDLINE_LINUX_DEFAULT="isolcpus=2,3"'
-  tags: setup-grub,setup
-- name: Load new GRUB config
-  shell: >
-   grub2-mkconfig -o /boot/grub2/grub.cfg
   tags: setup
 
 

@@ -9,11 +9,18 @@
     - client
 - name: Install dependency
   yum: name=qpid-proton-c-devel state=present
+  when: install_proton_from_source|default(false)|bool ==false
   tags:
-    - client
-- name: run install
+   - client
+- name: clean client
   shell: >
    cd {{ansible_env.HOME}}/13nodes/source;
-   make -f proton.mk;
+   make -f proton.mk clean;
+  tags:
+    - client
+- name: make client
+  shell: >
+   cd {{ansible_env.HOME}}/13nodes/source;
+   make -f proton.mk all;
   tags:
     - client

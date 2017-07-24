@@ -40,14 +40,23 @@
   tags:
     - router
 - name: clone qpid code
-  git: repo={{ qpid_base_repo }} accept_hostkey=yes version={{ qpid_branch }} dest={{ansible_env.HOME}}/qpid-dispatch
+  git: repo={{ qpid_dispatch_base_repo }} accept_hostkey=yes version={{ qpid_dispatch_branch }} dest={{ansible_env.HOME}}/qpid-dispatch
   tags:
     - router
-- name: Install dependency
+
+- name: Install proton dependency
   yum: name={{ item }} state=present
   with_items:
     - qpid-proton-c-devel
     - python-qpid-proton
+  when: install_proton_from_source|default(false)|bool ==false
+  tags:
+    - router
+
+
+- name: Install qdrouter dependency
+  yum: name={{ item }} state=present
+  with_items:
     - cmake
     - make
     - gcc
@@ -58,6 +67,16 @@
     - util-linux
   tags:
     - router
+
+- name: Install proton from source?
+  debug:
+    var: install_proton_from_source
+  
+- include: proton-build-install.yaml
+  static: no
+  when: install_proton_from_source|default(false)|bool ==true
+
+
 - name: copy qpid conf file
   template: src={{hostvars[inventory_hostname].group_names[0]}}.j2 dest={{ansible_env.HOME}}/qpid-dispatch/etc/qdrouterd.conf force=yes
   tags:
@@ -96,7 +115,7 @@
   when: inventory_hostname in hostvars[inventory_hostname].groups['event_tx'] or inventory_hostname in hostvars[inventory_hostname].groups['traffic_tx']
   tags:
     - router
-- name: run install
+- name: run qpid-dispatch install
   shell: >
    cd {{ansible_env.HOME}}/qpid-dispatch;
    mkdir build;

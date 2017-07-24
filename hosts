@@ -1,5 +1,5 @@
-[localhost]
-localhost ansible_connection=local
+#[localhost]
+#localhost ansible_connection=local
 
 [router]
 10.19.110.9
@@ -33,3 +33,4 @@ localhost ansible_connection=local
 
 
 
+ 

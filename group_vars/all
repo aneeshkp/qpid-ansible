@@ -1,4 +1,27 @@
-qpid_base_repo: https://github.com/apache/qpid-dispatch.git
-qpid_branch: 0.8.x
 
+ansible_ssh_user: root
+ansible_ssh_pass: redhat
+
+#for affinity
+isolcpus: 3,4,5,6,7
+
+#router
+qpid_dispatch_base_repo: https://github.com/apache/qpid-dispatch.git
+#qpid_dispatch_branch: 0.8.x
+#qpid_dispatch_branch: master
+qpid_dispatch_branch: b38d81d0f13deb6a1fc8f9b82607e4d24bac0322
+
+#proton
+install_proton_from_source: true
+qpid_proton_base_repo: https://github.com/apache/qpid-proton.git
+#qpid_proton_branch: master
+qpid_proton_branch: fa598eab40163d23d082d3ed111b38f31a4cb303
+
+
+#Test Client  repr
 client_base_repo: https://github.com/aneeshkp/13nodes.git
+
+
+
+
+

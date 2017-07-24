@@ -33,6 +33,7 @@
   when: item.changed == true
   with_items: "{{server_state.results}}"
 
+
 - name: Waiting for Servers to be up
   local_action:
    module: wait_for
@@ -40,8 +41,11 @@
     port=22
     delay=10
     timeout=3600
+  when: item.changed == true 
   with_items:
    - "{{ server_state.results }}"
+
+
 
 
 #

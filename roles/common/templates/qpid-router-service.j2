@@ -4,6 +4,6 @@ Description=qdrouterd.service
 Type=simple
 EnvironmentFile=/root/qpid-dispatch/build/config.sh
 User=root
-ExecStart= /usr/local/sbin/qdrouterd -c /root/qpid-dispatch/etc/qdrouterd.conf
+ExecStart= /usr/bin/taskset -a 0x00F8 /usr/local/sbin/qdrouterd -c /root/qpid-dispatch/etc/qdrouterd.conf
 [Install]
 WantedBy=multi-user.target

@@ -9,8 +9,15 @@
   service: state=started enabled=yes name=qdrouterd.service
   tags:
     - start
-- name: Pin pid to 2and 3 core
-  shell: >
-    ps -ef | grep qdrouterd  | grep -v grep | awk '{print $2}' | xargs taskset -cp 2,3
-  tags:
-    - start
+#- name: Pin pid to cores
+#  shell: >
+#    ps -ef | grep qdrouterd  | grep -v grep | awk '{print $2}' | xargs taskset -ap {{isolcpus}}
+#  tags:
+#    - start
+#- name: Pin pid to cores
+#  shell: >
+#     taskset -a {{isolcpus}} qdrouterd &
+#  tags:
+#   - start
+
+

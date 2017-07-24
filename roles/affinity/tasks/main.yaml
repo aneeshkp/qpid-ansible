@@ -1,0 +1,20 @@
+---
+- name: update grub
+  lineinfile: >
+     dest=/etc/default/grub
+     regexp=^GRUB_CMDLINE_LINUX_DEFAULT
+     line='GRUB_CMDLINE_LINUX_DEFAULT="isolcpus={{isolcpus}}"'
+  tags: setup-grub
+- name: Load new GRUB config
+  shell: >
+   grub2-mkconfig -o /boot/grub2/grub.cfg
+  tags: setup-grub
+
+#- name: reboot server
+#  command: /sbin/reboot
+#  ignore_errors: yes
+#  tags: reboot
+
+#- name: Wait for the server to finish rebooting
+#  local_action: wait_for host="{{ inventory_hostname }}" search_regex=OpenSSH port=22 timeout=300
+#  tags: reboot

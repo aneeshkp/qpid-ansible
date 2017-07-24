@@ -1,0 +1,45 @@
+---
+- name: clean  of any old qpid proton code
+  file: name={{ansible_env.HOME}}/qpid-proton state=absent force=yes
+  tags:
+    - router
+- name: remove proton dependency 
+  yum: name={{ item }} state=absent
+  with_items:
+    - qpid-proton-c-devel
+    - python-qpid-proton
+    - qpid-proton-c
+  tags:
+    - router
+
+- name: clone qpid proton code
+  git: repo={{ qpid_proton_base_repo }} accept_hostkey=yes version={{ qpid_proton_branch }} dest={{ansible_env.HOME}}/qpid-proton
+  tags:
+    - router
+
+- name: Install proton dependency
+  yum: name={{ item }} state=present
+  with_items:
+    - libuuid-devel
+    - openssl-devel
+    - cyrus-sasl-devel
+    - swig
+    #- python-devel
+    #- ruby-devel
+    #- rubygem-rspec
+    #- rubygem-simplecov
+    #- rubygem-test-unit
+    #- pphp-devel 
+    #- perl-devel
+  tags:
+    - router
+
+- name: run proton install
+  shell: >
+   cd {{ansible_env.HOME}}/qpid-proton;
+   mkdir build;
+   cd build;
+   cmake .. -DCMAKE_INSTALL_PREFIX=/usr -DSYSINSTALL_BINDINGS=ON;
+   make install
+  tags:
+    - router
