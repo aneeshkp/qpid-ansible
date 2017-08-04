@@ -4,14 +4,17 @@
   gather_facts: False
   #serial: 1
   pre_tasks:
-    - name: ping all hosts  
+    - name: ping all hosts
       ping:
-  tags: 
+  tags:
     - ping
     - all
     - setup-ssh
       #when: inventory_hostname not in hostvars[inventory_hostname].groups['ipmi']
-      
+
+- hosts: test-host
+  roles:
+    - { role: install-client, tags: [ 'proton-client' ] }
 
 - hosts: localhost
   gather_facts: yes
@@ -20,7 +23,7 @@
     - { role: setup, tags: [ 'setup-ssh' ] }
   vars_files:
     - vars/ipmi.yaml
-  tags: ipmi  
+  tags: ipmi
 
 - hosts: router
   remote_user: root
@@ -29,7 +32,8 @@
     - { role: setup, tags: [ 'setup' ] }
     - { role: configure, tags: [ 'config' ] }
     - { role: common, tags: [ 'router' ] }
-    - { role: install-13nodes, tags: [ 'client' ] }
+    - { role: install-client, tags: [ 'proton-client' ] }
+    #- { role: install-13nodes, tags: [ 'client' ] }
     - { role: start_routers, tags: [ 'start'] }
     - { role: status, tags: ['status' ] }
 - hosts: event_tx
@@ -39,7 +43,8 @@
     - { role: setup, tags: [ 'setup' ] }
     - { role: configure, tags: [ 'config' ] }
     - { role: common, tags: [ 'router' ] }
-    - { role: install-13nodes, tags: [ 'client' ] }
+    - { role: install-client, tags: [ 'proton-client' ] }
+    #- { role: install-13nodes, tags: [ 'client' ] }
     - { role: start_routers, tags: [ 'start'] }
     - { role: status, tags: ['status' ] }
 - hosts: event_rx
@@ -49,7 +54,8 @@
     - { role: setup, tags: [ 'setup' ] }
     - { role: configure, tags: [ 'config' ] }
     - { role: common, tags: [ 'router' ] }
-    - { role: install-13nodes, tags: [ 'client' ] }
+    - { role: install-client, tags: [ 'proton-client' ] }
+    #- { role: install-13nodes, tags: [ 'client' ] }
     - { role: start_routers, tags: [ 'start'] }
     - { role: status, tags: ['status' ] }
 - hosts: traffic_tx
@@ -59,7 +65,8 @@
     - { role: setup, tags: [ 'setup' ] }
     - { role: configure, tags: [ 'config' ] }
     - { role: common, tags: [ 'router' ] }
-    - { role: install-13nodes, tags: [ 'client' ] }
+    - { role: install-client, tags: [ 'proton-client' ] }
+    #- { role: install-13nodes, tags: [ 'client' ] }
     - { role: start_routers, tags: ['start'] }
     - { role: status, tags: ['status' ] }
 - hosts: traffic_rx
@@ -69,6 +76,7 @@
     - { role: setup, tags: [ 'setup' ] }
     - { role: configure, tags: [ 'config' ] }
     - { role: common, tags: [ 'router' ] }
-    - { role: install-13nodes, tags: [ 'client' ] }
+    - { role: install-client, tags: [ 'proton-client' ] }
+    #- { role: install-13nodes, tags: [ 'client' ] }
     - { role: start_routers, tags: [ 'start'] }
     - { role: status, tags: ['status' ] }

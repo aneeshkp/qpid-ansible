@@ -21,7 +21,5 @@ qpid_proton_branch: fa598eab40163d23d082d3ed111b38f31a4cb303
 #Test Client  repr
 client_base_repo: https://github.com/aneeshkp/13nodes.git
 
-
-
-
-
+#Test client example by Ken
+client_ken_base_repo: https://github.com/kgiusti/proton-examples.git

@@ -14,13 +14,14 @@
 #Run only setup
 	ansible-playbook -i hosts main.yaml --tags=setup
 
-#Install client and router
-	ansible-playbook -i hosts main.yaml --tags=client,router
+#Install client and router on all nodes, two maincentralized router will be installed
+# on router nodes and local nodes on all client nodes
+	ansible-playbook -i hosts main.yaml --tags=proton-client,router
 
-## Install only router
+## Install only router as central router and local router and configure
 	ansible-playbook -i hosts main.yaml --tags=router
 
-## Run routers 
+## Run routers
 	ansible-playbook -i hosts main.yaml --tags=start
 
 ### Check status if qpid routers are running
@@ -35,9 +36,10 @@ Trafffic :10.19.110.1
           10.19.110.21
           10.19.110.23
 
-# cd 13nodes/source 
+# ~~cd 13nodes/source~~
+#cd proton-examples/latency
 # make -f  proton,mk
-####################### check utils folder for more stuff
+####################### check 13nodes/utils folder for more stuff
 #EVENT RECEVIER
 ./proton-receiver -t unicast/event -l -c -1  -a 10.19.110.17:5672
 
@@ -49,23 +51,23 @@ Trafffic :10.19.110.1
 ./proton-receiver -t unicast/traffic -l -c -1  -a 10.19.110.25:5672
 
 
-#For one instance 
+#For one instance
 #TRAFFIC_SENDER One msg per sec
 ./proton-sender -t unicast/traffic -l -c -1 -s 1500 -S 1000 -m 1000 -M 1000 -a 10.19.110.15:5672
 
 #For 100 instances
 IP_ADDR=$(ip addr show | grep "inet " | grep 10.19.110.* |  grep -v "127.0.0.1" | awk '{print $2}' | cut -d '/' -f 1)
 for i in {1..100};do
-./proton-sender -t unicast/traffic -l -c -1 -S 1000 -m 100 -M 100 -a $IP_ADDR:5672 & 
+./proton-sender -t unicast/traffic -l -c -1 -S 1000 -m 100 -M 100 -a $IP_ADDR:5672 &
 done
 
 
 #100 instances of traffic - use tmux for multiple windows
 #$tmux
 #$sh tmux_traffic_send_all.sh
-#$ 
+#$
 IP_ADDR=$(ip addr show | grep "inet " | grep 10.19.110.* |  grep -v "127.0.0.1" | awk '{print $2}' | cut -d '/' -f 1)
 for i in {1..100};do
-./proton-sender -t unicast/traffic -l -c -1 -S 1000 -m 100 -M 100 -a $IP_ADDR:5672 & 
+./proton-sender -t unicast/traffic -l -c -1 -S 1000 -m 100 -M 100 -a $IP_ADDR:5672 &
 done
 ```
