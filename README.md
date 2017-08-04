@@ -7,19 +7,33 @@
 ![alt text](https://github.com/aneeshkp/qpid-ansible/blob/master/utils/qpidprotonclientsetup.png)
 ### Running test client
 # qpid-ansible
-(some issue couldn't run by tag)
-#fresh install
-	ansible-playbook -i hosts main.yaml
+~~(some issue couldn't run by tag)~~
+~~#fresh install (not )~~
+~~#	ansible-playbook -i hosts main.yaml~~
+# READ FIRST
+---
+This script by default expects  to run the qdrouterd threads  on their own cores.
+By default qdrouterd uses 5 threads total.  The formula is the number
+of configured workerThreads (default 4) plus one (for the core
+thread).
+### In order to configure this, you need to.
+---
+ 1. Run ansible playbook with --tags=setup-grub (sets grub.conf isolcpus: 3,4,5,6,7 and reboots)
+ systemd file is created with /usr/bin/taskset -a 0x00F8 (ps: roles/common/templates/qpid-router-service.j2 )
+### If you do not run setup-grub then
+---
+ 1. please remove this text "/usr/bin/taskset -a 0x00F8"  from "roles/common/templates/qpid-router-service.j2"
 
-#Run only setup
-	ansible-playbook -i hosts main.yaml --tags=setup
+---
+# Running playbook
+~~~## Run only setup(if required only , sets up ssh and other stuff)~~~
+~~~ansible-playbook -i hosts main.yaml --tags=setup~~~
 
-#Install client and router on all nodes, two maincentralized router will be installed
-# on router nodes and local nodes on all client nodes
-	ansible-playbook -i hosts main.yaml --tags=proton-client,router
+## Install client and router on all nodes, two main centralized router will be installed on router nodes and local nodes on all client nodes (config tag will open firewall)
+	ansible-playbook -i hosts main.yaml --tags=proton-client,router,config
 
 ## Install only router as central router and local router and configure
-	ansible-playbook -i hosts main.yaml --tags=router
+	ansible-playbook -i hosts main.yaml --tags=router,config
 
 ## Run routers
 	ansible-playbook -i hosts main.yaml --tags=start
