@@ -18,7 +18,7 @@ of configured workerThreads (default 4) plus one (for the core
 thread).
 ### In order to configure this, you need to.
 ---
- #un comment affinity_enabled: True in group_vars/all
+ un comment affinity_enabled: True in group_vars/all
  1. affinity_enabled: True
  1. Run ansible playbook with --tags=setup-grub (sets grub.conf isolcpus: 3,4,5,6,7 and reboots)
  systemd file is created with /usr/bin/taskset -a 0x00F8 (ps: roles/common/templates/qpid-router-service.j2 )
@@ -28,9 +28,22 @@ thread).
  1. comment affinity_enabled: true
  #affinity_enabled: True
  
+---
+# Install router and client in STANDALONE (SINGLE SERVER) mode(router , reciever and sender all on same machine)
+1.Edit hosts file and add single server address
+2. Run playbook
+	ansible-playbook -i hosts main.yaml --tags config-standalone,proton-client,router,start,status --limit standalone
+3. start proton client rx
+	a. cd ~/proton-example/latency
+	b. ./proton-receiver -a localhost:5672 -i 1 -l -c 200
+	(which will display the current statistics every 10 seconds (-i 10), measure latency (-l), and stop after 200 messages (-c 200):)
+4. start proton sender
+        a. cd ~/proton-example/latency
+	b. ./proton-receiver -a localhost:5672 -i 1 -l -c 200
+	(start a proton-sender on another terminal. This will send 200 messages (-c 200) with latency data contained in the message (-l). Messages will be transmitted in a somewhat random frequency between 100 and 300 milliseconds (-m 100 -M 300))
 
 ---
-# Running playbook
+# Running playbook to setup test environment as shown in picture above, with  2 central router and local routers on client nodes
 ~~~## Run only setup(if required only , sets up ssh and other stuff)~~~
 ~~~ansible-playbook -i hosts main.yaml --tags=setup~~~
 
