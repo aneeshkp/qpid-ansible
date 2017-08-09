@@ -34,7 +34,7 @@
   tags: setup-ssh
 
 - name: Install dependency
-  yum: name=git state=present
+  action: "{{ ansible_pkg_mgr }} name=git state=present"
   tags: setup
     
 - name: Sudoers | update sudoers file and validate

@@ -4,7 +4,7 @@
   tags:
     - router
 - name: remove proton dependency 
-  yum: name={{ item }} state=absent
+  action: "{{ ansible_pkg_mgr }} name={{ item }} state=present"
   with_items:
     - qpid-proton-c-devel
     - python-qpid-proton
@@ -18,7 +18,7 @@
     - router
 
 - name: Install proton dependency
-  yum: name={{ item }} state=present
+  action: "{{ ansible_pkg_mgr }} name={{ item }} state=present"
   with_items:
     - libuuid-devel
     - openssl-devel

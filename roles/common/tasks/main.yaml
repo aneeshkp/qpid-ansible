@@ -45,7 +45,7 @@
     - router
 
 - name: Install proton dependency
-  yum: name={{ item }} state=present
+  action: "{{ ansible_pkg_mgr }} name={{ item }} state=present"
   with_items:
     - qpid-proton-c-devel
     - python-qpid-proton
@@ -55,10 +55,12 @@
 
 
 - name: Install qdrouter dependency
-  yum: name={{ item }} state=present
+  action: "{{ ansible_pkg_mgr }} name={{ item }} state=present"
   with_items:
     - cmake
     - make
+    - libuuid-devel
+    - openssl-devel
     - gcc
     - python-devel
     - cyrus-sasl-plain
@@ -115,12 +117,13 @@
   when: inventory_hostname in hostvars[inventory_hostname].groups['event_tx'] or inventory_hostname in hostvars[inventory_hostname].groups['traffic_tx']
   tags:
     - router
+
 - name: run qpid-dispatch install
   shell: >
    cd {{ansible_env.HOME}}/qpid-dispatch;
    mkdir build;
    cd build;
-   cmake ..;
+   cmake .. -DSYSINSTALL_BINDINGS=OFF;
    make install
   tags:
     - router

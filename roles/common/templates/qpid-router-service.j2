@@ -4,6 +4,11 @@ Description=qdrouterd.service
 Type=simple
 EnvironmentFile=/root/qpid-dispatch/build/config.sh
 User=root
+{% if affinity_enabled is defined %}
 ExecStart= /usr/bin/taskset -a 0x00F8 /usr/local/sbin/qdrouterd -c /root/qpid-dispatch/etc/qdrouterd.conf
+{% else %}
+ExecStart= /usr/local/sbin/qdrouterd -c /root/qpid-dispatch/etc/qdrouterd.conf
+{% endif %}
+
 [Install]
 WantedBy=multi-user.target

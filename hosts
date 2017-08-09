@@ -1,10 +1,12 @@
 [local] #this is used for IPMI check for remote servers
-localhost ansible_connection=local
+#localhost ansible_connection=local
 
-#use this for any testing
-[test-host]
+#use this for any testing or running in single machine
+#-- limit to standalone for installing on single machine
+[standalone]
 #127.0.0.1 ansible_connection=local
 
+#rest is for test environment setup as show in read,e
 #Install Two main centralized routers
 [router]
 10.19.110.9

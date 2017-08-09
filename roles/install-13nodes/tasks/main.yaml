@@ -8,7 +8,7 @@
   tags:
     - client
 - name: Install dependency
-  yum: name=qpid-proton-c-devel state=present
+  action: "{{ ansible_pkg_mgr }} name=qpid-proton-c-devel state=present"
   when: install_proton_from_source|default(false)|bool ==false
   tags:
    - client

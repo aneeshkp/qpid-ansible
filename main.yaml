@@ -12,9 +12,14 @@
     - setup-ssh
       #when: inventory_hostname not in hostvars[inventory_hostname].groups['ipmi']
 
-- hosts: test-host
+- hosts: standalone
   roles:
-    - { role: install-client, tags: [ 'proton-client' ] }
+    - { role: install-client, tags: [ 'proton-client'] }
+    - { role: configure, tags: ['config-standalone']}
+    - { role: common,tags: ['router']}
+    - { role: start_routers, tags: [ 'start'] }
+    - { role: status, tags: ['status' ] }
+  become: true
 
 - hosts: localhost
   gather_facts: yes

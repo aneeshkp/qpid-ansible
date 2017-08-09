@@ -5,6 +5,11 @@
    iptables -I INPUT -p tcp --dport 20002 -j ACCEPT;
    iptables -I INPUT -p tcp --dport 20003 -j ACCEPT;
   tags: config
+- name: setup iptables for standalone
+  shell: >
+   iptables -I INPUT -p tcp --dport 5672 -j ACCEPT;
+  tags: config-standalone
+
 - name: save iptables
   command: iptables-save
-  tags: config
+  tags: config,config-standalone
