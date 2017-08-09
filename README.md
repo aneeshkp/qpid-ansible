@@ -33,13 +33,13 @@ thread).
 ## Edit hosts file and add single server address
 ## Run playbook
 1. --ansible-playbook -i hosts main.yaml --tags config-standalone,proton-client,router,start,status --limit standalone
-## start proton client rx
+## start proton client receiver
 1. cd ~/proton-example/latency
 2. ./proton-receiver -a localhost:5672 -i 1 -l -c 200
 3.(which will display the current statistics every 10 seconds (-i 10), measure latency (-l), and stop after 200 messages (-c 200):)
 ## start proton sender
 1. cd ~/proton-example/latency
-2. ./proton-receiver -a localhost:5672 -i 1 -l -c 200
+2. ./proton-sender -a localhost:5672 -c 200 -l -m 100 -M 300
 *. (start a proton-sender on another terminal. This will send 200 messages (-c 200) with latency data contained in the message (-l). Messages will be transmitted in a somewhat random frequency between 100 and 300 milliseconds (-m 100 -M 300))
 
 ---
