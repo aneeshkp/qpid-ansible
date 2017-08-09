@@ -18,11 +18,16 @@ of configured workerThreads (default 4) plus one (for the core
 thread).
 ### In order to configure this, you need to.
 ---
+ #un comment affinity_enabled: True in group_vars/all
+ 1. affinity_enabled: True
  1. Run ansible playbook with --tags=setup-grub (sets grub.conf isolcpus: 3,4,5,6,7 and reboots)
  systemd file is created with /usr/bin/taskset -a 0x00F8 (ps: roles/common/templates/qpid-router-service.j2 )
 ### If you do not run setup-grub then
 ---
- 1. please remove this text "/usr/bin/taskset -a 0x00F8"  from "roles/common/templates/qpid-router-service.j2"
+ ~~~1. please remove this text "/usr/bin/taskset -a 0x00F8"  from "roles/common/templates/qpid-router-service.j2"~~~
+ 1. comment affinity_enabled: true
+ #affinity_enabled: True
+ 
 
 ---
 # Running playbook
