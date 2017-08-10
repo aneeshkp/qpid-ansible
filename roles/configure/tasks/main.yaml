@@ -1,4 +1,13 @@
 ---
+- name: remove iptables rules
+  shell: >
+   iptables -D INPUT -p tcp --dport 5672 -j ACCEPT;
+   iptables -D INPUT -p tcp --dport 20002 -j ACCEPT;
+   iptables -D INPUT -p tcp --dport 20003 -j ACCEPT;
+  ignore_errors: yes
+  tags: 
+    - config
+    - config-standalone
 - name: setup iptables
   shell: >
    iptables -I INPUT -p tcp --dport 5672 -j ACCEPT;

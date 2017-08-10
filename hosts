@@ -3,8 +3,10 @@
 
 #use this for any testing or running in single machine
 #-- limit to standalone for installing on single machine
-[standalone]
 #127.0.0.1 ansible_connection=local
+[standalone]
+10.19.110.23
+
 
 #rest is for test environment setup as show in read,e
 #Install Two main centralized routers
@@ -28,7 +30,7 @@
 #10.19.110.1
 10.19.110.3
 10.19.110.21
-10.19.110.23
+#10.19.110.23
 
 #Local node qpid router listening to central router
 #for proton client receiver in same node

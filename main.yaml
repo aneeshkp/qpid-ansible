@@ -13,13 +13,14 @@
       #when: inventory_hostname not in hostvars[inventory_hostname].groups['ipmi']
 
 - hosts: standalone
+  gather_facts: yes
   roles:
     - { role: install-client, tags: [ 'proton-client'] }
     - { role: configure, tags: ['config-standalone']}
     - { role: common,tags: ['router']}
     - { role: start_routers, tags: [ 'start'] }
     - { role: status, tags: ['status' ] }
-  become: true
+  #become: true
 
 - hosts: localhost
   gather_facts: yes

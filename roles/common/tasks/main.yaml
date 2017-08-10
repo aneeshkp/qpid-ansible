@@ -83,6 +83,7 @@
   template: src={{hostvars[inventory_hostname].group_names[0]}}.j2 dest={{ansible_env.HOME}}/qpid-dispatch/etc/qdrouterd.conf force=yes
   tags:
     - router
+    
 - name: insert/update router config connector block for sender in ansible_env.HOME/qpid-dispatch/etc/qdrouterd.conf
   blockinfile:
     dest: "{{ansible_env.HOME}}/qpid-dispatch/etc/qdrouterd.conf"
